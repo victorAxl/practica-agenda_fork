@@ -1,0 +1,247 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% block content %}
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item">
+      <a class="nav-link active" id="contacto-tab" data-toggle="tab" href="#contacto" role="tab" aria-controls="contacto" aria-selected="true">Contacto</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="direccion-tab" data-toggle="tab" href="#direccion" role="tab" aria-controls="direccion" aria-selected="false">Direccion</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="telefonos-tab" data-toggle="tab" href="#telefonos" role="tab" aria-controls="telefonos" aria-selected="false">Teléfonos</a>
+    </li>
+  </ul>
+  <div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="contacto" role="tabpanel" aria-labelledby="contacto-tab">
+      <div class="card">
+        <div class="card-header">
+            <h4 style="float: left;">Datos de contacto</h4>
+        </div>
+        <div class="container">
+          <div class="row">
+            <div class="col-4" style="padding-top: 1rem;">
+              <img
+              {% if contacto.fotografia %} src="{{contacto.fotografia.url}}"
+              {% else %}
+               src="https://st2.depositphotos.com/1009634/7235/v/950/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg"
+              {% endif %}
+              alt="">
+            </div>
+            <div class="col">
+              <form enctype="multipart/form-data" action="{% url 'contacto_edicion' pk=pk %}"  method="POST" class="post-form" style="margin: 3% 4%">
+                {% csrf_token %}
+                <p>
+                    {{ contacto_form.nombre.label_tag}}
+                    {{ contacto_form.nombre.errors }}
+                    {{ contacto_form.nombre|add_class:'form-control' }}
+                </p>
+                <p>
+                    {{ contacto_form.apellidos.label_tag}}
+                    {{ contacto_form.apellidos.errors }}
+                    {{ contacto_form.apellidos|add_class:'form-control' }}
+                </p>
+                <p>
+                    {{ contacto_form.fecha_nacio.label_tag}}
+                    {{ contacto_form.fecha_nacio.errors }}
+                    {{ contacto_form.fecha_nacio}}
+                </p>
+                <p>
+                    {{ contacto_form.fotografia.label_tag}}
+                    {{ contacto_form.fotografia.errors }}
+                    {{ contacto_form.fotografia|add_class:'form-control' }}
+                </p>
+                  <input type="hidden" name="tab" class="tab">
+                  <button type="submit" class="save btn btn-default" onMouseOver="this.parentNode.querySelector('.tab').value = 1">Guardar</button>
+                  <button type="submit" class="save btn btn-default" onMouseOver="this.parentNode.querySelector('.tab').value = 2">Guardar y continuar</button>
+                  <button type="submit" class="save btn btn-default" onMouseOver="this.parentNode.querySelector('.tab').value = 0">Guardar y salir</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="tab-pane fade" id="direccion" role="tabpanel" aria-labelledby="direccion-tab">
+      <div class="card">
+        <div class="card-header">
+            <h4 style="float: left;">Dirección</h4>
+        </div>
+        <form action="{% url 'direccion_edicion' pk=pk %}"  method="POST" class="post-form" style="margin: 3% 4%">
+          {% csrf_token %}
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              {{ direccion_form.calle.label_tag}}
+              {{ direccion_form.calle.errors }}
+              {{ direccion_form.calle|add_class:'form-control' }}
+            </div>
+            <div class="form-group col-md-2">
+              {{ direccion_form.numero_exterior.label_tag}}
+              {{ direccion_form.numero_exterior.errors }}
+              {{ direccion_form.numero_exterior|add_class:'form-control' }}
+            </div>
+            <div class="form-group col-md-2">
+              {{ direccion_form.numero_interior.label_tag}}
+              {{ direccion_form.numero_interior.errors }}
+              {{ direccion_form.numero_interior|add_class:'form-control' }}
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-3">
+              {{ direccion_form.colonia.label_tag}}
+              {{ direccion_form.colonia.errors }}
+              {{ direccion_form.colonia|add_class:'form-control' }}
+            </div>
+            <div class="form-group col-md-4">
+              {{ direccion_form.municipio.label_tag}}
+              {{ direccion_form.municipio.errors }}
+              {{ direccion_form.municipio|add_class:'form-control' }}
+            </div>
+            <div class="form-group col-md-3">
+              {{ direccion_form.estado.label_tag}}
+              {{ direccion_form.estado.errors }}
+              {{ direccion_form.estado|add_class:'form-control' }}
+            </div>
+          </div>
+          <p>
+              {{ direccion_form.referencias.label_tag}}
+              {{ direccion_form.referencias.errors }}
+              {{ direccion_form.referencias|add_class:'form-control' }}
+          </p>
+          <input type="hidden" name="tab" class="tab">
+          <button type="submit" class="save btn btn-default" onMouseOver="this.parentNode.querySelector('.tab').value = 2">Guardar</button>
+          <button type="submit" class="save btn btn-default" onMouseOver="this.parentNode.querySelector('.tab').value = 3">Guardar y continuar</button>
+          <button type="submit" class="save btn btn-default" onMouseOver="this.parentNode.querySelector('.tab').value = 0">Guardar y salir</button>
+        </form>
+      </div>
+    </div>
+    <div class="tab-pane fade" id="telefonos" role="tabpanel" aria-labelledby="telefonos-tab">
+      <div class="card">
+        <div class="card-header">
+            <h4 style="float: left;">Lista de telefonos</h4>
+            <a class="btn btn-md active" role="button" aria-pressed="true"
+                style="float: right;" onclick="agregarTelefono()">Agregar telefono</a>
+        </div>
+        <form action="{% url 'telefonos_edicion' pk=pk %}" method="POST" class="post-form" style="margin: 3% 4%">
+            {% csrf_token %}
+            {{telefonoFormSet.management_form}}
+            
+            {% for form in telefonoFormSet %}
+              {{form.id}}
+              {% if forloop.counter0 == 0 %}
+              <div class="form-row">
+                <div class="form-group col-md-4">
+                  {{form.alias.label_tag}}
+                  {{form.alias|add_class:'form-control'}}
+                  {{form.alias.errors}}
+                </div>
+                <div class="form-group col-md-4">
+                  {{form.numero.label_tag}}
+                  {{form.numero|add_class:'form-control'}}
+                  {{form.numero.errors}}
+                </div>
+                <div class="form-group col-md-2">
+                  {{form.tipo.label_tag}}
+                  {{form.tipo|add_class:'form-control'}}
+                  {{form.tipo.errors}}
+                </div>
+                <div class="form-group col-md-2 align-middle">
+                  <label for="inputState">Acciones</label></br>
+                  {{form.DELETE|add_class:'not_display'}}
+                  <a class="btn btn-light" onclick="deshabilitar(this)" role="button">Eliminar</a>
+                </div>
+              </div>
+              {% else %}
+              <div class="form-row">
+                <div class="form-group col-md-4">
+                  {{form.alias|add_class:'form-control'}}
+                  {{form.alias.errors}}
+                </div>
+                <div class="form-group col-md-4">
+                  {{form.numero|add_class:'form-control'}}
+                  {{form.numero.errors}}
+                </div>
+                <div class="form-group col-md-2">
+                  {{form.tipo|add_class:'form-control'}}
+                  {{form.tipo.errors}}
+                </div>
+                <div class="form-group col-md-2 align-middle">
+                  {{form.DELETE|add_class:'not_display'}}
+                  <a class="btn btn-light" onclick="deshabilitar(this)" role="button">Eliminar</a>
+                </div>
+              </div>
+              {% endif %}
+            {% endfor %}
+            <input type="hidden" name="tab" class="tab">
+            <button type="submit" class="save btn btn-default" onMouseOver="this.parentNode.querySelector('.tab').value = 3">Guardar</button>
+            <button type="submit" class="save btn btn-default" onMouseOver="this.parentNode.querySelector('.tab').value = 0">Guardar y salir</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+{% endblock content %}
+
+{% block script %}
+<script>
+  $('#myTab li:nth-child({{tab}}) a').tab('show');
+
+  function deshabilitar(form){
+    var boton = form;
+    form = $(form).parent().parent();
+    var deleteCheckBox = $(form).find('input[type=checkbox]');
+    var disable = $(deleteCheckBox).prop('checked');
+    $(form).find('.form-control')
+      .prop( "style", 'color:'+(!disable?'red':'default')+'; border-color:'+(!disable?'red':'default'))
+    $(boton).text(disable?'Eliminar':'Cancelar');
+    var disable = $(deleteCheckBox).prop('checked', !disable);
+  }
+
+  function agregarTelefono() {
+    var totalForms = $('#id_form-TOTAL_FORMS');
+    var id = totalForms.val();
+    var nuevo =
+    `<input type="hidden" name="form-${id}-id" id="id_form-${id}-id">
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        <input type="text" name="form-${id}-alias" maxlength="255" class="form-control" id="id_form-${id}-alias">
+      </div>
+      <div class="form-group col-md-4">
+        <input type="text" name="form-${id}-numero" maxlength="50" class="form-control" id="id_form-${id}-numero">
+      </div>
+      <div class="form-group col-md-2">
+        <select name="form-${id}-tipo" class="form-control" id="id_form-${id}-tipo">
+          <option value="" selected="">---------</option>
+          <option value="1">Casa</option>
+          <option value="2">Teléfono móvil</option>
+        </select>
+      </div>
+      <div class="form-group col-md-2 align-middle">
+        <input type="checkbox" name="form-${id}-DELETE" class="not_display" id="id_form-${id}-DELETE">
+        <a class="btn btn-light" onclick="eliminarForm(this)" role="button">Cancelar</a>
+      </div>
+    </div>`
+    $(nuevo).insertBefore('.btn-save');
+    console.log($(nuevo));
+    totalForms.val(Number(id)+1);
+  }
+
+  function eliminarForm(form){
+    $(form).parent().parent().hide()
+  }
+  var fotografia = $('img');
+  var inputFotografia = $('input[type=file]').change(function () {
+    readURL(this);
+  });
+
+  function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            fotografia.attr('src', e.target.result);
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+  }
+</script>
+{% endblock script%}
+

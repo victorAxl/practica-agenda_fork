@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h4 style="float: left;">{{titulo}}</h4>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-4" style="padding-top: 1rem;">
+                <img src="https://st2.depositphotos.com/1009634/7235/v/950/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg" alt="">
+            </div>
+            <div class="col">
+                <form enctype="multipart/form-data" method="POST" class="post-form" style="margin: 3% 4%">
+                    {% csrf_token %}
+                    <p>
+                        {{ form.nombre.label_tag}}
+                        {{ form.nombre.errors }}
+                        {{ form.nombre|add_class:'form-control' }}
+                    </p>
+                    <p>
+                        {{ form.apellidos.label_tag}}
+                        {{ form.apellidos.errors }}
+                        {{ form.apellidos|add_class:'form-control' }}
+                    </p>
+                    <p>
+                        {{ form.fecha_nacio.label_tag}}
+                        {{ form.fecha_nacio.errors }}
+                        {{ form.fecha_nacio}}
+                    </p>
+                    <p>
+                        {{ form.fotografia.label_tag}}
+                        {{ form.fotografia.errors }}
+                        {{ form.fotografia|add_class:'form-control' }}
+                    </p>
+                    <button type="submit" class="save btn btn-default">Save</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+{% block script %}
+<script>
+  var fotografia = $('img');
+  var inputFotografia = $('input[type=file]').change(function () {
+    readURL(this);
+  });
+
+  function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            fotografia.attr('src', e.target.result);
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+  }
+</script>
+{% endblock script%}

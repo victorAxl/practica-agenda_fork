@@ -1,0 +1,47 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es-mx">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{titulo}}</title>
+    <style>
+        .post-form textarea, .post-form input {
+            width: 100%;
+        }
+        
+        img, picture{
+            max-width: 100%;
+            display: block;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .not_display{
+            display: none;
+        }
+    </style>
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+</head>
+<body>
+
+    <header class="site-header sticky-top py-1">
+        <nav class="navbar navbar-light" style="background-color: #e3f2fd;">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="{% url 'inicio' %}">Agenda</a>
+            </div>
+        </nav>
+    </header>
+    <div class="container" style="margin-top: 20px;">
+        {% block content %}
+        {% endblock %}
+    </div>
+    <script src="{% static 'jquery/jquery-3.6.0.min.js' %}"></script>
+    <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+    {% block script %}
+    {% endblock script%}
+</body>
+</html>

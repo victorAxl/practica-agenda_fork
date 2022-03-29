@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h4 style="float: left;">Lista de contactos</h4>
+        <a href="{% url 'contacto_nuevo' %}" class="btn btn-md active" role="button" aria-pressed="true"
+            style="float: right;">Agregar contacto</a>
+    </div>
+    <div class="card-body">
+        <table class="table table-hover align-middle text-center">
+            <thead>
+                <tr>
+                    <th scope="col"></th>
+                    <th scope="col"><a href="{% url 'home' order='nombre' %}">Nombre</a></th>
+                    <th scope="col"><a href="{% url 'home' order='apellidos' %}">Apellidos</a></th>
+                    <th scope="col"><a href="{% url 'home' order='fecha_nacio'%}">Fecha de nacimiento</a></th>
+                    <th scope="col">Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="tabla_contenido">
+                {% for contacto in contactos %}
+                <tr>
+                    <th style="width: 80px;">
+                        <img 
+                        {% if contacto.fotografia %}
+                        src="{{contacto.fotografia.url}}"
+                        {% else %}
+                        src="https://st2.depositphotos.com/1009634/7235/v/950/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg"
+                        {% endif %}
+                        alt="">
+                    </th>
+                    <td class="align-middle">{{contacto.nombre}}</td>
+                    <td class="align-middle">{{contacto.apellidos}}</td>
+                    <td class="align-middle">{{contacto.fecha_nacio}}</td>
+                    <td>
+                        <a class="btn btn-light btn-sm" href="{% url 'contacto_edicion' pk=contacto.id%}" role="button">Editar</a>
+                        <a class="btn btn-sm btn-danger text-light" href="{% url 'contacto_eliminar' pk=contacto.id%}" type="button">
+                            Eliminar
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        {% comment %} </table>
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                <li class="page-item"><a class="page-link" onclick="">1</a></li>
+                <li class="page-item"><a class="page-link" onclick="">2</a></li>
+                <li class="page-item"><a class="page-link" onclick="">3</a></li>
+            </ul>
+        </nav> {% endcomment %}
+    </div>
+</div>
+
+{% endblock content %}
