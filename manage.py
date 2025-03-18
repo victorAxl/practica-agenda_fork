@@ -3,6 +3,8 @@
 import os
 import sys
 
+# test git push
+
 
 def main():
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'practica.settings')
