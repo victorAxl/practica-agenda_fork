@@ -7,6 +7,7 @@ import sys
 # cambio en llave y git.config
 # cambio en user.name
 # correccion de user.email
+# Prueba cambio de user.name
 
 
 def main():
