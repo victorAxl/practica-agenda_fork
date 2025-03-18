@@ -5,6 +5,7 @@ import sys
 
 # test git push
 # cambio en llave y git.config
+# cambio en user.name
 
 
 def main():
